@@ -1,9 +1,5 @@
 import java.util.Comparator;
 
-/**
- *
- * Inspiration from https://courses.cs.washington.edu/courses/cse373/13wi/lectures/03-13/MergeSort.java
- */
 public class ParallelMergeSort extends Thread  {
     /**
      * Sorts an array, using the merge sort algorithm.
@@ -50,22 +46,14 @@ public class ParallelMergeSort extends Thread  {
      */
     private static <E> void parallelMergeSort(E[] a, int from, int to, Comparator<? super E> comp, int availableThreads){
         if (to - from > 0){
-            if (availableThreads <=1) {
+            if (availableThreads <= 1) {
                 mergeSort(a, from, to, comp);
             }
             else {
                 int middle = to/2;
 
-                Thread firstHalf = new Thread(){
-                    public void run(){
-                        parallelMergeSort(a, from, middle, comp, availableThreads - 1);
-                    }
-                };
-                Thread secondHalf = new Thread(){
-                    public void run(){
-                        parallelMergeSort(a, middle + 1, to, comp, availableThreads - 1);
-                    }
-                };
+                Thread firstHalf = new Thread(() -> parallelMergeSort(a, from, middle, comp, availableThreads / 2));
+                Thread secondHalf = new Thread(() -> parallelMergeSort(a, middle + 1, to, comp, availableThreads / 2));
 
                 firstHalf.start();
                 secondHalf.start();

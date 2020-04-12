@@ -35,7 +35,7 @@ public class Main {
         Comparator<Integer> comp = Integer::compareTo;
 
         System.out.printf("\nMax number of threads == %d\n\n", availableThreads);
-        for (int i = 1; i <= availableThreads; i*=2) {
+        for (int i = 1; i <= availableThreads; i *= 2) {
             if (i == 1) {
                 System.out.printf("%d Thread:\n", i);
             }
@@ -43,9 +43,9 @@ public class Main {
                 System.out.printf("%d Threads:\n", i);
             }
 
-            for (int j = 0, k = size; j < rounds; ++j, k*=5) {
+            for (int j = 0, k = size; j < rounds; ++j, k*=2) {
                 a = createRandomArray(k);
-//                System.out.println(Arrays.toString(a));
+
                 // run the algorithm and time how long it takes to sort the elements
                 long startTime = System.currentTimeMillis();
                 ParallelMergeSort.sort(a, comp, i);
